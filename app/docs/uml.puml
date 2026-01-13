@@ -17,7 +17,7 @@ class Apartment {
 class RentalAgreement {
   +id: int
   +apartment_id: int
-  +user_id: int
+  +tenant_id: int
   +start_date: date
   +end_date: date?
 }

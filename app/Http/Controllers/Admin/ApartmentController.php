@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ApartmentController extends Controller
 {
@@ -26,16 +27,30 @@ class ApartmentController extends Controller
     public function update(Request $request, Apartment $apartment)
     {
         $validated = $request->validate([
-            'title'       => 'required|string|max:255',
+            'type'       => 'required|string|max:255',
             'address'     => 'required|string|max:255',
             'price'       => 'required|numeric',
-            'description' => 'nullable|string',
+            'area'          => 'required|integer|min:1',
         ]);
 
         $apartment->update($validated);
 
         return redirect()
             ->route('admin.apartments.index')
-            ->with('success', 'Apartment updated.');
+            ->with('success', 'Apartment updated successfully.');
+    }
+
+    public function destroy(Apartment $apartment)
+    {
+        foreach ($apartment->images as $image) {
+            Storage::disk('public')->delete($image->path);
+            $image->delete();
+        }
+
+        $apartment->delete();
+
+        return redirect()
+            ->route('admin.apartments.index')
+            ->with('success', 'Apartment deleted successfully.');
     }
 }

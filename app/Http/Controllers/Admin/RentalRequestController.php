@@ -10,19 +10,28 @@ class RentalRequestController extends Controller
 {
     public function index()
     {
-        $rentalRequests = RentalRequest::with(['apartment', 'user'])
+        $rentalRequests = RentalRequest::with(['apartment', 'tenant'])
             ->latest()
             ->get();
 
         return view('admin.dashboard', compact('rentalRequests'));
     }
-    //APPROVE RENTAL REQUEST
+
+    // APPROVE RENTAL REQUEST
     public function approve(RentalRequest $rentalRequest)
     {
-        // Create rental agreement
+        if (RentalAgreement::overlapsForApartment(
+            (int) $rentalRequest->apartment_id,
+            $rentalRequest->start_date,
+            $rentalRequest->end_date
+        )) {
+            return back()
+                ->withErrors(['start_date' => 'This apartment already has a lease overlapping this period.']);
+        }
+
         RentalAgreement::create([
             'apartment_id' => $rentalRequest->apartment_id,
-            'tenant_id'    => $rentalRequest->user_id,
+            'tenant_id'    => $rentalRequest->tenant_id,
             'start_date'   => $rentalRequest->start_date,
             'end_date'     => $rentalRequest->end_date,
             'status'       => 'active',
@@ -34,7 +43,7 @@ class RentalRequestController extends Controller
 
         return back()->with('success', 'Rental request approved.');
     }
-    //REJECT RENTAL REQUEST
+
     public function reject(RentalRequest $rentalRequest)
     {
         $rentalRequest->update([
@@ -43,7 +52,7 @@ class RentalRequestController extends Controller
 
         return back()->with('success', 'Rental request rejected.');
     }
-    //DELETE RENTAL REQUEST AFTER APPROVE/REJECT (IF REQUEST PENDING = 403)
+
     public function destroy(RentalRequest $rentalRequest)
     {
         if ($rentalRequest->status === 'pending') {

@@ -19,9 +19,9 @@ class ApartmentController extends Controller
             'type' => ['nullable', 'string'],
             'min_price' => ['nullable', 'numeric'],
             'max_price' => ['nullable', 'numeric'],
-            'tenant_id' => ['nullable', 'integer'],
+            'tenant_id' => ['nullable', 'exists:users,id'],
             'from' => ['nullable', 'date'],
-            'to' => ['nullable', 'date'],
+            'to' => ['nullable', 'date', 'after_or_equal:from'],
         ]);
         $query = Apartment::query()->with('images');
 
@@ -35,6 +35,22 @@ class ApartmentController extends Controller
 
         if (!empty($filters['max_price'])) {
             $query->where('price', '<=', $filters['max_price']);
+        }
+        if (!empty($filters['tenant_id'])) {
+            $query->whereHas('rentalAgreements', function ($q) use ($filters) {
+                $q->where('tenant_id', $filters['tenant_id']);
+            });
+        }
+        if (!empty($filters['from']) || !empty($filters['to'])) {
+           $from = $filters['from'] ?? '0000-01-01';
+           $to   = $filters['to'] ?? '9999-12-31';
+           $query->whereHas('rentalAgreements', function ($q) use ($from, $to) {
+               $q->where('start_date', '<=', $to)
+                  ->where(function ($q) use ($from) {
+                      $q->whereNull('end_date')
+                         ->orWhere('end_date', '>=', $from);
+                  });
+               });
         }
 
         return view('apartments.index', [

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-3xl mx-auto">
@@ -6,7 +6,7 @@
 
     <form method="POST"
           action="{{ route('admin.rentals.update', $rental) }}"
-          class="bg-white border rounded-2xl p-8 shadow-sm">
+          class="glass-card p-8">
         @csrf
         @method('PUT')
 
@@ -14,13 +14,14 @@
 
         <div class="mt-8 flex justify-end gap-3">
             <a href="{{ route('admin.rentals.index') }}"
-               class="px-5 py-2 bg-gray-200 rounded-lg">
+               class="px-5 py-2 bg-white/10 text-stone-200 rounded-lg">
                 Cancel
             </a>
-            <button class="px-6 py-2 bg-black text-white rounded-lg">
+            <button class="px-6 py-2 bg-emerald-600 text-white rounded-lg">
                 Update Agreement
             </button>
         </div>
     </form>
 </div>
 @endsection
+

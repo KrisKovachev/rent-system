@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
-        <label class="block text-sm font-medium mb-1">Type</label>
+        <label class="glass-label">Type</label>
         <input
-            class="w-full border rounded-lg p-3"
+            class="glass-input"
             name="type"
             value="{{ old('type', $apartment->type ?? '') }}"
             placeholder="apartment / house / studio"
@@ -11,9 +11,9 @@
     </div>
 
     <div>
-        <label class="block text-sm font-medium mb-1">Monthly Price</label>
+        <label class="glass-label">Monthly Price</label>
         <input
-            class="w-full border rounded-lg p-3"
+            class="glass-input"
             type="number"
             step="0.01"
             name="price"
@@ -23,9 +23,9 @@
     </div>
 
     <div class="md:col-span-2">
-        <label class="block text-sm font-medium mb-1">Address</label>
+        <label class="glass-label">Address</label>
         <input
-            class="w-full border rounded-lg p-3"
+            class="glass-input"
             name="address"
             value="{{ old('address', $apartment->address ?? '') }}"
             required
@@ -33,9 +33,9 @@
     </div>
 
     <div>
-        <label class="block text-sm font-medium mb-1">Area (sqm)</label>
+        <label class="glass-label">Area (sqm)</label>
         <input
-            class="w-full border rounded-lg p-3"
+            class="glass-input"
             type="number"
             name="area"
             value="{{ old('area', $apartment->area ?? '') }}"
@@ -43,3 +43,4 @@
         >
     </div>
 </div>
+

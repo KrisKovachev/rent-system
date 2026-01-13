@@ -13,14 +13,14 @@ class RentalRequestController extends Controller
     public function store(Request $request, Apartment $apartment)
     {
         $data = $request->validate([
-            'start_date' => ['required', 'date'],
+            'start_date' => ['required', 'date', 'after_or_equal:today'],
             'end_date'   => ['nullable', 'date', 'after_or_equal:start_date'],
             'message'    => ['nullable', 'string', 'max:1000'],
         ]);
 
         RentalRequest::create([
             'apartment_id' => $apartment->id,
-            'user_id'      => Auth::id(),
+            'tenant_id'      => Auth::id(),
             'start_date'   => $data['start_date'],
             'end_date'     => $data['end_date'] ?? null,
             'message'      => $data['message'] ?? null,
@@ -29,4 +29,5 @@ class RentalRequestController extends Controller
 
         return back()->with('success', 'Rental request sent successfully.');
     }
+    
 }

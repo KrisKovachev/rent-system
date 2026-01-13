@@ -29,7 +29,7 @@ class TenantController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
-            'is_admin' => ['nullable', 'boolean'],
+            'role' => ['required', 'in:admin,user'],
         ]);
 
         User::create([

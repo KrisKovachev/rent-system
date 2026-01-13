@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
         'avatar_path',
         'phone',
         'address',
@@ -34,26 +35,19 @@ class User extends Authenticatable
         'country',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
         ];
     }
     //USER BECOMES ADMIN CHECK
@@ -69,7 +63,12 @@ class User extends Authenticatable
     // RELATIONSHIP FOR RENTAL AGREEMENTS
     public function rentalAgreements()
     {
-        return $this->hasMany(RentalAgreement::class);
+        return $this->hasMany(RentalAgreement::class, 'tenant_id');
+    }
+    //RENTAL REQUESTS RELATIONSHIP
+    public function rentalRequests()
+    {
+        return $this->hasMany(RentalRequest::class, 'tenant_id');
     }
     // ADDING AVATAR URL
     public function getAvatarUrlAttribute(): string

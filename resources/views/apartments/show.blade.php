@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    $isOccupied = $apartment->rentals()
+    $isOccupied = $apartment->rentalAgreements()
         ->where('status', 'active')
         ->exists();
 @endphp
@@ -15,17 +15,17 @@
             <h1 class="text-4xl font-extrabold tracking-tight">
                 {{ $apartment->type ?? 'Apartment' }}
             </h1>
-            <p class="text-gray-500 mt-2 text-lg">
+            <p class="text-stone-400 mt-2 text-lg">
                 {{ $apartment->address }}
             </p>
         </div>
 
         <span class="inline-flex items-center gap-2 px-6 py-2 rounded-full text-sm font-semibold shadow
             {{ $isOccupied
-                ? 'bg-red-100 text-red-700'
-                : 'bg-emerald-100 text-emerald-700' }}">
+                ? 'bg-rose-500/20 text-rose-300'
+                : 'bg-emerald-500/20 text-emerald-300' }}">
             <span class="h-2 w-2 rounded-full
-                {{ $isOccupied ? 'bg-red-500' : 'bg-emerald-500' }}"></span>
+                {{ $isOccupied ? 'bg-rose-500' : 'bg-emerald-500' }}"></span>
             {{ $isOccupied ? 'Occupied' : 'Available' }}
         </span>
     </div>
@@ -49,14 +49,14 @@
                 {{-- Controls --}}
                 @if($apartment->images->count() > 1)
                     <button onclick="prevSlide()"
-                        class="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white
-                        px-4 py-2 rounded-full text-xl shadow transition">
+                        class="absolute left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20
+                        px-4 py-2 rounded-full text-xl text-stone-200 shadow transition">
                         ‹
                     </button>
 
                     <button onclick="nextSlide()"
-                        class="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white
-                        px-4 py-2 rounded-full text-xl shadow transition">
+                        class="absolute right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20
+                        px-4 py-2 rounded-full text-xl text-stone-200 shadow transition">
                         ›
                     </button>
                 @endif
@@ -65,9 +65,9 @@
             {{-- DOTS --}}
             <div class="flex justify-center gap-2 mt-4">
                 @foreach($apartment->images as $i => $img)
-                    <button onclick="goToSlide({ $i })"
+                    <button onclick="goToSlide({{ $i }})"
                         class="dot h-3 w-3 rounded-full
-                        {{ $i === 0 ? 'bg-indigo-600' : 'bg-gray-300' }}">
+                        {{ $i === 0 ? 'bg-emerald-400' : 'bg-white/20' }}">
                     </button>
                 @endforeach
             </div>
@@ -76,19 +76,19 @@
 
     {{-- STATS --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
-        <div class="glass-card">
-            <p class="label">Area</p>
-            <p class="value">{{ $apartment->area }} m²</p>
+        <div class="glass-card p-6">
+            <p class="text-sm text-stone-400">Area</p>
+            <p class="text-2xl font-semibold mt-1">{{ $apartment->area }} m²</p>
         </div>
 
-        <div class="glass-card">
-            <p class="label">Price</p>
-            <p class="value">€{{ number_format($apartment->price, 2) }}</p>
+        <div class="glass-card p-6">
+            <p class="text-sm text-stone-400">Price</p>
+            <p class="text-2xl font-semibold mt-1">€{{ number_format($apartment->price, 2) }}</p>
         </div>
 
-        <div class="glass-card">
-            <p class="label">Status</p>
-            <p class="value">
+        <div class="glass-card p-6">
+            <p class="text-sm text-stone-400">Status</p>
+            <p class="text-2xl font-semibold mt-1">
                 {{ $isOccupied ? 'Not available' : 'Ready to rent' }}
             </p>
         </div>
@@ -97,12 +97,11 @@
     {{-- RENT REQUEST CTA --}}
     @auth
         @if(!$isOccupied)
-            <div class="bg-gradient-to-br from-slate-900 to-slate-800
-                text-white rounded-[32px] p-10 shadow-2xl">
+            <div class="glass-card-lg rounded-[32px] p-10">
                 <h3 class="text-3xl font-bold mb-3">
                     Interested in this apartment?
                 </h3>
-                <p class="text-gray-300 mb-8 text-lg">
+                <p class="text-stone-300 mb-8 text-lg">
                     Send a rental request directly to the owner.
                 </p>
 
@@ -111,20 +110,20 @@
                     @csrf
 
                     <div>
-                        <label class="text-sm text-gray-300">Start date</label>
+                        <label class="text-sm text-stone-300">Start date</label>
                         <input type="date" name="start_date" required
-                            class="block mt-1 rounded-xl px-4 py-2 text-black">
+                            class="block mt-1 glass-input">
                     </div>
 
                     <div>
-                        <label class="text-sm text-gray-300">End date</label>
+                        <label class="text-sm text-stone-300">End date</label>
                         <input type="date" name="end_date"
-                            class="block mt-1 rounded-xl px-4 py-2 text-black">
+                            class="block mt-1 glass-input">
                     </div>
 
                     <button
-                        class="h-[44px] px-8 rounded-xl bg-white text-black font-semibold
-                        hover:bg-gray-200 transition">
+                        class="h-[44px] px-8 rounded-xl bg-emerald-600 text-white font-semibold
+                        hover:bg-emerald-500 transition">
                         Request rental
                     </button>
                 </form>
@@ -133,25 +132,6 @@
     @endauth
 </div>
 
-{{-- STYLES --}}
-<style>
-    .glass-card {
-        background: rgba(255,255,255,0.85);
-        backdrop-filter: blur(10px);
-        border-radius: 24px;
-        padding: 28px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
-    .label {
-        font-size: 0.875rem;
-        color: #6b7280;
-    }
-    .value {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-top: 4px;
-    }
-</style>
 
 {{-- SLIDER SCRIPT --}}
 <script>
@@ -168,8 +148,8 @@
         });
 
         dots.forEach((d, idx) => {
-            d.classList.toggle('bg-indigo-600', idx === i);
-            d.classList.toggle('bg-gray-300', idx !== i);
+            d.classList.toggle('bg-emerald-400', idx === i);
+            d.classList.toggle('bg-white/20', idx !== i);
         });
 
         current = i;
@@ -188,3 +168,7 @@
     }
 </script>
 @endsection
+
+
+
+

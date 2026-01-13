@@ -6,22 +6,22 @@
     {{-- Header --}}
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
+            <h1 class="text-4xl font-extrabold tracking-tight text-stone-100">
                 Edit Property
             </h1>
-            <p class="mt-2 text-gray-500">
+            <p class="mt-2 text-stone-400">
                 Update details, pricing and photos
             </p>
         </div>
 
         <a href="{{ route('apartments.my') }}"
-           class="text-sm font-medium text-gray-500 hover:text-black transition">
+           class="text-sm font-medium text-stone-400 hover:text-white transition">
             ← Back to My Properties
         </a>
     </div>
 
     {{-- Card --}}
-    <div class="bg-white rounded-3xl shadow-xl border p-10 space-y-10">
+    <div class="glass-card p-10 space-y-10">
 
         <form method="POST"
               action="{{ route('apartments.update', $apartment) }}"
@@ -32,77 +32,73 @@
 
             {{-- BASIC INFO --}}
             <div>
-                <h2 class="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-4">
+                <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase mb-4">
                     Basic information
                 </h2>
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium mb-1">Type</label>
+                        <label class="glass-label">Type</label>
                         <input
                             name="type"
                             value="{{ old('type', $apartment->type) }}"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3
-                                   focus:border-black focus:ring-black">
+                            class="glass-input">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Address</label>
+                        <label class="glass-label">Address</label>
                         <input
                             name="address"
                             value="{{ old('address', $apartment->address) }}"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3
-                                   focus:border-black focus:ring-black">
+                            class="glass-input">
                     </div>
                 </div>
             </div>
 
             {{-- SIZE & PRICE --}}
             <div>
-                <h2 class="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-4">
+                <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase mb-4">
                     Size & price
                 </h2>
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium mb-1">Area (m²)</label>
+                        <label class="glass-label">Area (m²)</label>
                         <input
                             name="area"
                             type="number"
                             value="{{ old('area', $apartment->area) }}"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3
-                                   focus:border-black focus:ring-black">
+                            class="glass-input">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Price / month (€)</label>
+                        <label class="glass-label">Price / month (€)</label>
                         <input
                             name="price"
                             type="number"
                             step="0.01"
                             value="{{ old('price', $apartment->price) }}"
-                            class="w-full rounded-xl border-gray-300 px-4 py-3
-                                   focus:border-black focus:ring-black">
+                            class="glass-input">
                     </div>
                 </div>
             </div>
 
             {{-- IMAGES --}}
             <div>
-                <h2 class="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-4">
+                <h2 class="text-sm font-semibold tracking-wide text-stone-500 uppercase mb-4">
                     Photos
                 </h2>
 
                 {{-- Upload --}}
-                <div class="border-2 border-dashed rounded-2xl p-6 text-center hover:border-black transition">
+                <div class="border-2 border-dashed border-white/20 rounded-2xl p-6 text-center hover:border-white/40 transition">
                     <input type="file" name="images[]" multiple class="hidden" id="imagesInput">
 
                     <label for="imagesInput" class="cursor-pointer inline-flex flex-col items-center gap-2">
-                        <div class="h-12 w-12 rounded-full bg-black text-white flex items-center justify-center text-xl">
+                        <div class="h-12 w-12 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xl">
                             ＋
                         </div>
                         <p class="text-sm font-medium">Click to upload images</p>
-                        <p class="text-xs text-gray-400">JPG, PNG — multiple files allowed</p>
+                        <p class="text-xs text-stone-500">JPG, PNG — multiple files allowed</p>
                     </label>
                 </div>
 
@@ -136,15 +132,15 @@
             </div>
 
             {{-- ACTIONS --}}
-            <div class="flex items-center justify-between pt-6 border-t">
+            <div class="flex items-center justify-between pt-6 border-t border-white/10">
                 <a href="{{ route('apartments.my') }}"
-                   class="text-sm font-medium text-gray-500 hover:text-black transition">
+                   class="text-sm font-medium text-stone-400 hover:text-white transition">
                     Cancel
                 </a>
 
                 <button
-                    class="px-8 py-3 rounded-xl bg-black text-white font-medium
-                           hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.97] transition-all">
+                    class="px-8 py-3 rounded-xl bg-emerald-600 text-white font-medium
+                           hover:bg-emerald-500 hover:scale-[1.02] active:scale-[0.97] transition-all">
                     Update Property
                 </button>
             </div>
@@ -154,3 +150,4 @@
 
 </div>
 @endsection
+

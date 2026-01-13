@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-6 py-8">
 
     {{-- Flash --}}
     @if(session('success'))
-        <div class="mb-6 rounded-xl bg-green-100 border border-green-200 px-5 py-3 text-green-800">
+        <div class="mb-6 rounded-xl bg-emerald-500/15 border border-emerald-500/30 px-5 py-3 text-emerald-200">
             {{ session('success') }}
         </div>
     @endif
@@ -13,17 +13,17 @@
     {{-- Header --}}
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+            <h1 class="text-3xl font-extrabold tracking-tight text-stone-100">
                 Leases
             </h1>
-            <p class="mt-1 text-sm text-gray-500">
+            <p class="mt-1 text-sm text-stone-400">
                 Overview of all rental agreements
             </p>
         </div>
 
         <a href="{{ route('admin.rentals.create') }}"
-           class="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5
-                  text-sm font-semibold text-white hover:bg-gray-800 transition
+           class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5
+                  text-sm font-semibold text-white hover:bg-emerald-500 transition
                   hover:scale-[1.02] active:scale-[0.97]">
             <span class="text-lg leading-none">+</span>
             New Lease
@@ -31,51 +31,48 @@
     </div>
 
     {{-- Table Card --}}
-    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+    <div class="overflow-hidden rounded-2xl glass-card shadow-lg">
 
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-white/10">
+            <thead class="bg-white/5">
                 <tr>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
                         Property
                     </th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
                         Tenant
                     </th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
                         Period
                     </th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-stone-400">
                         Status
                     </th>
-                    <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-stone-400">
                         Actions
                     </th>
                 </tr>
             </thead>
 
-            <tbody class="divide-y divide-gray-100">
+            <tbody class="divide-y divide-white/10">
                 @forelse($rentals as $r)
-                    <tr class="group hover:bg-gray-50 transition">
+                    <tr class="group hover:bg-white/5 transition">
                         {{-- Property --}}
                         <td class="px-6 py-4">
-                            <div class="font-semibold text-gray-900">
-                                {{ $r->apartment->city }}
-                            </div>
-                            <div class="text-xs text-gray-500">
+                            <div class="text-xs text-stone-400">
                                 {{ $r->apartment->address }}
                             </div>
                         </td>
 
                         {{-- Tenant --}}
-                        <td class="px-6 py-4 text-gray-800">
-                            {{ $r->user?->name ?? '—' }}
+                        <td class="px-6 py-4 text-stone-200">
+                            {{ $r->tenant?->name ?? '—' }}
                         </td>
 
                         {{-- Period --}}
-                        <td class="px-6 py-4 text-sm text-gray-600">
+                        <td class="px-6 py-4 text-sm text-stone-300">
                             <div>{{ $r->start_date }}</div>
-                            <div class="text-xs text-gray-400">
+                            <div class="text-xs text-stone-400">
                                 → {{ $r->end_date ?? 'Open-ended' }}
                             </div>
                         </td>
@@ -84,12 +81,12 @@
                         <td class="px-6 py-4">
                             @if($r->end_date === null || $r->end_date >= now()->toDateString())
                                 <span class="inline-flex items-center rounded-full
-                                             bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                                             bg-emerald-500/20 px-3 py-1 text-xs font-semibold text-emerald-300">
                                     Active
                                 </span>
                             @else
                                 <span class="inline-flex items-center rounded-full
-                                             bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-700">
+                                             bg-white/10 px-3 py-1 text-xs font-semibold text-stone-300">
                                     Completed
                                 </span>
                             @endif
@@ -99,9 +96,9 @@
                         <td class="px-6 py-4 text-right space-x-2 opacity-0
                                    group-hover:opacity-100 transition">
                             <a href="{{ route('admin.rentals.edit', $r) }}"
-                               class="inline-flex items-center rounded-lg bg-gray-100
-                                      px-3 py-1.5 text-sm text-gray-700
-                                      hover:bg-gray-200 transition">
+                               class="inline-flex items-center rounded-lg bg-white/10
+                                      px-3 py-1.5 text-sm text-stone-300
+                                      hover:bg-white/10 transition">
                                 Edit
                             </a>
 
@@ -112,9 +109,9 @@
                                 @csrf
                                 @method('DELETE')
                                 <button
-                                    class="inline-flex items-center rounded-lg bg-red-600
+                                    class="inline-flex items-center rounded-lg bg-rose-600
                                            px-3 py-1.5 text-sm text-white
-                                           hover:bg-red-700 transition">
+                                           hover:bg-rose-500 transition">
                                     Delete
                                 </button>
                             </form>
@@ -122,7 +119,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-14 text-center text-sm text-gray-500">
+                        <td colspan="5" class="px-6 py-14 text-center text-sm text-stone-400">
                             No leases found.
                         </td>
                     </tr>
@@ -132,3 +129,4 @@
     </div>
 </div>
 @endsection
+

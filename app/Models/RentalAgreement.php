@@ -9,7 +9,7 @@ class RentalAgreement extends Model
 {
     protected $fillable = [
         'apartment_id', 
-        'user_id', 
+        'tenant_id', 
         'start_date', 
         'end_date', 
         'status'
@@ -23,11 +23,6 @@ class RentalAgreement extends Model
     public function tenant()
     {
         return $this->belongsTo(User::class, 'tenant_id');
-    }
-    
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 
     // CHECK FOR OVERLAPPING RENTAL AGREEMENTS

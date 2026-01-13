@@ -11,28 +11,41 @@ class RentalAgreementSeeder extends Seeder
 {
     public function run(): void
     {
-        RentalAgreement::query()->delete();
+        $tenant1 = User::factory()->create(['role' => 'user']);
+        $tenant2 = User::factory()->create(['role' => 'user']);
 
-        $tenant1 = User::where('email', 'tenant1@demo.test')->first();
-        $tenant2 = User::where('email', 'tenant2@demo.test')->first();
+        $owner = User::where('role', 'admin')->first();
 
-        $a1 = Apartment::where('address', 'Sofia, Center 1')->first();
-        $a2 = Apartment::where('address', 'Sofia, Boyana 12')->first();
-
-        // ACTIVE RENTAL AGREEMENT
-        RentalAgreement::create([
-            'apartment_id' => $a1->id,
-            'user_id' => $tenant1->id,
-            'start_date' => now()->subMonths(2)->toDateString(),
-            'end_date' => null,
+        $a1 = Apartment::create([
+            'type'     => 'apartment',
+            'address'  => 'Maria Gabrovska 2A, Veliko Tarnovo',
+            'price'    => 250,
+            'area'     => 70,
+            'owner_id' => $owner->id,
         ]);
 
-        // FINISHED RENTAL AGREEMENT
+        $a2 = Apartment::create([
+            'type'     => 'house',
+            'address'  => 'Ledenik 15, Veliko Tarnovo',
+            'price'    => 350,
+            'area'     => 130,
+            'owner_id' => $owner->id,
+        ]);
+
+        RentalAgreement::create([
+            'apartment_id' => $a1->id,
+            'tenant_id'    => $tenant1->id,
+            'start_date'   => now()->subMonths(2)->toDateString(),
+            'end_date'     => null,
+            'status'       => 'pending',
+        ]);
+
         RentalAgreement::create([
             'apartment_id' => $a2->id,
-            'user_id' => $tenant2->id,
-            'start_date' => now()->subYear()->toDateString(),
-            'end_date' => now()->subMonths(6)->toDateString(),
+            'tenant_id'    => $tenant2->id,
+            'start_date'   => now()->addWeek()->toDateString(),
+            'end_date'     => now()->addMonths(6)->toDateString(),
+            'status'       => 'pending',
         ]);
     }
 }

@@ -25,7 +25,7 @@ class RentalRequestSubmitted extends Notification
             'type' => 'rental_request_submitted',
             'rental_request_id' => $this->rentalRequest->id,
             'apartment_id' => $this->rentalRequest->apartment_id,
-            'tenant_name' => $this->rentalRequest->user->name,
+            'tenant_name' => $this->rentalRequest->tenant->name,
             'start_date' => $this->rentalRequest->start_date,
             'end_date' => $this->rentalRequest->end_date,
             'message' => $this->rentalRequest->message,

@@ -1,48 +1,48 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="max-w-5xl mx-auto space-y-8">
 
     <div>
         <h1 class="text-2xl font-bold">Edit Apartment</h1>
-        <p class="text-gray-500">Update apartment details and manage images</p>
+        <p class="text-stone-400">Update apartment details and manage images</p>
     </div>
 
     <form method="POST"
           action="{{ route('admin.apartments.update', $apartment) }}"
           enctype="multipart/form-data"
-          class="bg-white rounded-2xl shadow p-8 space-y-6">
+          class="glass-card p-8 space-y-6">
 
         @csrf
         @method('PUT')
 
         <div class="grid md:grid-cols-2 gap-6">
             <div>
-                <label class="label">Type</label>
-                <input name="type" class="input" value="{{ old('type', $apartment->type) }}" required>
+                <label class="glass-label">Type</label>
+                <input name="type" class="glass-input" value="{{ old('type', $apartment->type) }}" required>
             </div>
 
             <div>
-                <label class="label">Address</label>
-                <input name="address" class="input" value="{{ old('address', $apartment->address) }}" required>
+                <label class="glass-label">Address</label>
+                <input name="address" class="glass-input" value="{{ old('address', $apartment->address) }}" required>
             </div>
 
             <div>
-                <label class="label">Area (sq.m)</label>
-                <input type="number" name="area" class="input" value="{{ old('area', $apartment->area) }}" required>
+                <label class="glass-label">Area (sq.m)</label>
+                <input type="number" name="area" class="glass-input" value="{{ old('area', $apartment->area) }}" required>
             </div>
 
             <div>
-                <label class="label">Price (€)</label>
-                <input type="number" step="0.01" name="price" class="input" value="{{ old('price', $apartment->price) }}" required>
+                <label class="glass-label">Price (€)</label>
+                <input type="number" step="0.01" name="price" class="glass-input" value="{{ old('price', $apartment->price) }}" required>
             </div>
         </div>
 
         {{-- Images --}}
         <div>
-            <label class="label">Add Images</label>
+            <label class="glass-label">Add Images</label>
             <input type="file" name="images[]" multiple
-                   class="block w-full border rounded-lg p-2">
+                   class="glass-input">
         </div>
 
         {{-- Existing images --}}
@@ -62,14 +62,16 @@
 
         <div class="flex justify-end gap-4 pt-6">
             <a href="{{ route('admin.apartments.index') }}"
-               class="px-6 py-2 rounded-lg border">
+               class="px-6 py-2 rounded-lg border border-white/10 text-stone-200 bg-white/10">
                 Cancel
             </a>
 
-            <button class="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+            <button class="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500">
                 Save Changes
             </button>
         </div>
     </form>
 </div>
 @endsection
+
+

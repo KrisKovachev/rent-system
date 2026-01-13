@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Apartment extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'type',
         'address',
@@ -14,7 +16,7 @@ class Apartment extends Model
         'area',
         'owner_id',
     ];
-
+    
     public function rentalAgreements(): HasMany
     {
         return $this->hasMany(RentalAgreement::class);
@@ -35,11 +37,6 @@ class Apartment extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-   public function rentals()
-    {
-        return $this->hasMany(RentalAgreement::class);
-    }
-
     public function rentalRequests()
     {
         return $this->hasMany(RentalRequest::class);
@@ -47,7 +44,8 @@ class Apartment extends Model
     //CHECK FOR OCCUPIED APARTMENT
     public function isOccupied(): bool
     {
-        return $this->rentals()
+        return $this->rentalAgreements()
+            ->where('status', 'active')
             ->where('start_date', '<=', now())
             ->where(function ($q) {
                 $q->whereNull('end_date')

@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('type');
             $table->string('address');
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 18, 2);
             $table->unsignedInteger('area');
             $table->timestamps();
             $table->foreignId('owner_id')

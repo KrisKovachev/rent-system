@@ -17,9 +17,15 @@ class UserSeeder extends Seeder
             'name' => 'Kris',
             'email' => 'kikomikobg123@gmail.com',
             'password' => Hash::make('556742krisko'),
-            'is_admin' => true,
+            'role' => 'admin',
+        ]);
+
+         User::factory(5)->create([
+            'role' => 'user',
         ]);
     }
+
 }
 
-//USE 'php artisan db:seed' TO ADD ;)
+
+//USE 'php artisan db:seed' TO ADD :)

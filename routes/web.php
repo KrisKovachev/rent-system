@@ -10,46 +10,42 @@ use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\RentalAgreementController;
 use App\Http\Controllers\Admin\RentalRequestController as AdminRentalRequestController;
 
-//PUBLIC ROUTES:
-
-//HOMEPAGE
+// HOMEPAGE (listing)
 Route::get('/', [ApartmentController::class, 'index'])
     ->name('apartments.index');
 
-//SHOW SINGLE APARTMENT
-Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])
-    ->name('apartments.show');
-
-
 //AUTH
 Route::middleware('auth')->group(function () {
+
     //MY
     Route::get('/my-properties', [ApartmentController::class, 'my'])
         ->name('apartments.my');
-
-    //CRUD FOR MY APARTMENTS
     Route::resource('apartments', ApartmentController::class)
         ->except(['destroy', 'show', 'index']);
 
-    //RENTAL REQUEST
+    Route::delete(
+        '/apartments/{apartment}/images/{image}',
+        [ApartmentController::class, 'deleteImage']
+    )->name('apartments.images.destroy');
+
+    //RENTAL REQUESTS
     Route::post(
         '/apartments/{apartment}/rental-request',
         [RentalRequestController::class, 'store']
     )->name('rental-requests.store');
 
-    //SHOW PROFILE, ADD AVATAR, UPDATE INFO AND PASS
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
-        Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->name('profile.avatar');
-
-        Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-    });
-
+    //PROFILE
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])->name('profile.avatar');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
-//ADMIN !!
+//APARTMENTS SHOW
+Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])
+    ->name('apartments.show');
+
+//ADMIN ROUTES
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -59,33 +55,36 @@ Route::middleware(['auth', 'admin'])
         Route::get('/', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        //NAV BAR BUTTONS
         Route::resource('apartments', AdminApartmentController::class);
         Route::resource('tenants', TenantController::class);
         Route::resource('rentals', RentalAgreementController::class);
 
-        //MAKE USER ADMIN
-        Route::patch('tenants/{tenant}/role',
+        //TOGGLE ADMIN ROLE IN USER EDIT
+        Route::patch(
+            'tenants/{tenant}/role',
             [TenantController::class, 'toggleRole']
         )->name('tenants.toggle-role');
 
-        //RENTAL REQUEST MANAGEMENT
-        Route::get('/rental-requests',
-            [AdminRentalRequestController::class, 'index'])
-            ->name('rental-requests.index');
+        //RENTAL REQUESTS
+        Route::get(
+            '/rental-requests',
+            [AdminRentalRequestController::class, 'index']
+        )->name('rental-requests.index');
 
-        Route::post('/rental-requests/{rentalRequest}/approve',
-            [AdminRentalRequestController::class, 'approve'])
-            ->name('rental-requests.approve');
+        Route::post(
+            '/rental-requests/{rentalRequest}/approve',
+            [AdminRentalRequestController::class, 'approve']
+        )->name('rental-requests.approve');
 
-        Route::post('/rental-requests/{rentalRequest}/reject',
-            [AdminRentalRequestController::class, 'reject'])
-            ->name('rental-requests.reject');
+        Route::post(
+            '/rental-requests/{rentalRequest}/reject',
+            [AdminRentalRequestController::class, 'reject']
+        )->name('rental-requests.reject');
 
-        
-        Route::delete('/rental-requests/{rentalRequest}',
-            [AdminRentalRequestController::class, 'destroy'])
-            ->name('rental-requests.destroy');
+        Route::delete(
+            '/rental-requests/{rentalRequest}',
+            [AdminRentalRequestController::class, 'destroy']
+        )->name('rental-requests.destroy');
     });
 
 require __DIR__.'/auth.php';
