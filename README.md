@@ -1,69 +1,162 @@
 ## License
-MIT License © 2026 Kristiyan Kovachev
+MIT License © 2026 Rental System
+---
+# Rental System
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**Rental System** е уеб базирана система за управление на имоти под наем, разработена с PHP Laravel.
+Проектът позволява публикуване на имоти, изпращане на заявки за наемане на свободен за наемане имот, както и пълно административно управление на наематели, договори, имоти и потребителски профили.
+Проектът демонстрира работа с Laravel MVC архитектурата, Релационни бази данни, Authentication и роли, Реална бизнес интеграция
+---
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Начална страница](screenshots/home.png)
 
-## About Laravel
+## Цел на проекта:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- автоматизира процеса по отдаване и наемане на имоти под наем 
+- улеснява комуникацията между наемодатели и наематели
+- предоставя централизирана административна система за управление
+--- 
+## Потребителски роли: 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Гост (нерегистриран потребител)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- преглежда списъка с публикувани от други регистрирани потребители имоти
+- отваря детайната страница на имота като няма право да изпраща заявка за наемане към администраторския панел
+- право на регистрация/вход в системата 
 
-## Learning Laravel
+### Регистрирани потребители (User)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- има право на вход в портебителския си профил
+- управлява собствения си профил с прилежащата информация
+- управлява/създава собствени имоти и прилежащата информация под формата на основни характеристики на имотите като: тип на имота, адрес, квадратура на площта, месечна наемна цена в евро и снимков материал на прилежащите площи на имота
+- може да изпраща заявки към административния панел за ненаети имоти като посочва датата на започване на наема и крайната дата за напускане на имота
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![Детайли](screenshots/apartment-show.png)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Администратор (Admin)
 
-## Laravel Sponsors
+- има право да достъпва административния панел от общото навигационно меню
+- има право да управлява/изтрива/редактира всички имоти без значение от техния собственик
+- има право да управлява наематели, както и тяхната информация по договора както и информация по профила като: потребителско име, имейл адрес, парола и добавяне/отнемане на администраторски права.
+- изпълнява одобрителна/отказваща функция спрямо заявките от потребителите за наемане на имот
+- съзадава и управлява договори за наеми на наети от потребители имоти
+- притежава всички права на обикновения потребител
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+![Админ панел](screenshots/admin-dashboard.png)
 
-### Premium Partners
+--- 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Основни Функционалности
 
-## Contributing
+### Управление на имоти
+- създаване, редакция, изтриване и преглед на имоти
+- качване на снимков материал на апартаменти, както и индивидуално изтриване/добавяне на снимка посредством страницата за редакция на имот
+- показване на адресна информация на имота, месечната наемна цена, статус относно заетостта на имота както и квадратурата на прилежащите площи
+- публичен списък с всички имоти публикувани от различни потребители както и набор от филтриращи елементи спомагащи за по лесното отсяване на желани от потребителя имоти
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+![Редакция на имот](screenshots/property-edit.png)
 
-## Code of Conduct
+### Заявки за наем на имот
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- изпращане на заявка за желание за наем на ненает имот 
+- преглед на наемните заявки от администратора в главното меню на администраторския панел
+- одобряваща и отказваща опция от страна на администратора към желаещия наемател
+- авоматично създаване на договор по наем на имот след одобрителна функция на администратора
 
-## Security Vulnerabilities
+![Заявка за наем](screenshots/request.png)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Договори за наем
 
-## License
+- създаване на персонални договори между наемател и имот
+- статуси на заявка за наемане : 'pending', 'active', 'rejected'
+- възможност за прегледа и редакция на всички договори в администраторския панел
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![Договори за наем](screenshots/leases.png)
+
+### Authentication и сигурнос
+- регистрация и вход на потребители
+- защитен маршрут и хашване на потребителска парола
+- достъп базиран изцяло на потребителската роля
+
+![Профилна страница](screenshots/profile.png)
+
+---
+## Използвани технологии
+
+### Backend
+- PHP 8.2
+- Laravel Framework
+- MySQL
+- Docker
+
+### Frontend
+- Blade Templates
+- Tailwind CSS
+- Vite
+- Взиман е стил от шаблон от TemplateMo ("https://templatemo.com/tm-607-glass-admin")
+
+---
+
+## Инсталация и стартиране
+
+### 1. Клониране на проект
+- Използвана е VmmemWSL платформа Linux-Ubuntu за клониране на проект
+
+```bash
+git clone https://github.com/FMI-VT/sail-codespace-laravel.git
+cd rent-system
+```
+
+### 2. Инсталиране на зависимости
+```bash
+composer install
+npm install
+npm run build
+```
+
+### 3. Конфигуриране на среда
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+- Добавяме попълвания за базата в .env файла
+```env
+DB_DATABASE=rental_system
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4. Миграции
+```bash
+php artisan migrate
+```
+
+### 5. Стартиране на приложението
+```bash
+php artisan serve
+npm run dev
+```
+
+### 6. Активация на сийдъри за информация
+```bash
+php artisan db:seed
+```
+
+### 7. Достъп до страницата на проекта
+- Проектът се постъпва чрез:
+http://127.0.0.1:8000
+
+
+## Структура на проекта:
+- app/Http/Controllers - Контролери
+- app/Models - Модели
+- resources/view - Blade шаблони
+- routes/web.php - Уеб маршрути
+- database/migrations - Миграции
+- database/seeders - Сийдъри за примерна информация в базата
+- public/storage - Качени файлове като снимки
+
+## Лиценз
+- Проектът е лицензиран под MIT License (https://choosealicense.com/licenses/mit/)
+
