@@ -1,28 +1,15 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Support\Facades\Storage;
 use App\Models\RentalAgreement;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-/**
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Apartment> $apartments
- */
-
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
