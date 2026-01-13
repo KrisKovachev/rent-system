@@ -22,6 +22,11 @@ Route::middleware('auth')->group(function () {
         ->name('apartments.my');
     Route::resource('apartments', ApartmentController::class)
         ->except(['destroy', 'show', 'index']);
+    //DELETE APARTMENT
+    Route::delete(
+        '/apartments/{apartment}/delete',
+        [ApartmentController::class, 'destroy']
+    )->name('apartments.destroy');
 
     Route::delete(
         '/apartments/{apartment}/images/{image}',
@@ -88,3 +93,4 @@ Route::middleware(['auth', 'admin'])
     });
 
 require __DIR__.'/auth.php';
+

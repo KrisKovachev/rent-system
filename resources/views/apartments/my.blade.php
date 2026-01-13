@@ -73,6 +73,17 @@
                                   hover:scale-105 transition">
                             Edit
                         </a>
+
+                        <form action="{{ route('apartments.destroy', $a) }}" method="POST"
+                              onsubmit="return confirm('Delete this apartment?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                    class="px-5 py-2 bg-red-600 text-white rounded-xl text-sm font-medium
+                                           hover:scale-105 transition">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -112,4 +123,5 @@
 
 </div>
 @endsection
+
 

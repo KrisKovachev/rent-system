@@ -20,6 +20,10 @@
                 <div class="text-xs text-stone-400 truncate">View profile</div>
             </div>
         </a>
+        <a href="{{ route('apartments.index') }}"
+           class="block px-4 py-3 rounded-xl text-stone-200 hover:bg-white/10 hover:text-white transition">
+            Home
+        </a>
         <a href="{{ route('admin.dashboard') }}"
            class="block px-4 py-3 rounded-xl text-stone-200 hover:bg-white/10 hover:text-white transition">
             Dashboard

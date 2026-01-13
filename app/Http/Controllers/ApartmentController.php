@@ -162,4 +162,19 @@ class ApartmentController extends Controller
             ->with('success', 'Image deleted.');
     }
 
+    //DELETE APARTMENT
+    public function destroy(Apartment $apartment)
+    {
+        foreach ($apartment->images as $image) {
+            Storage::disk('public')->delete($image->path);
+            $image->delete();
+        }
+
+        $apartment->delete();
+
+        return redirect()
+            ->route('apartments.index')
+            ->with('success', 'Apartment deleted successfully.');
+    }
+
 }
